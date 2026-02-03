@@ -11,11 +11,11 @@
 - [x] Create API client (axios/fetch wrapper)
 
 ## 2. Layout & Navigation
-- [ ] Root layout with header/footer
-- [ ] Navbar component (logo, nav links, auth buttons)
-- [ ] Mobile responsive sidebar/menu
-- [ ] Footer component
-- [ ] Loading and error states (Suspense, error boundaries)
+- [x] Root layout with header/footer
+- [x] Navbar component (logo, nav links, auth buttons)
+- [x] Mobile responsive sidebar/menu
+- [x] Footer component
+- [x] Loading and error states (Suspense, error boundaries)
 
 ## 3. Authentication Pages
 - [ ] `/login` - Login page
