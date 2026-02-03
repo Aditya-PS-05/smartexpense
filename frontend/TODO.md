@@ -1,34 +1,31 @@
 # Frontend TODO - Neighborhood Lending Library
 
-> **Tech Stack**: Next.js 14 (App Router), shadcn/ui, Tailwind CSS
+> **Tech Stack**: Next.js 16 (App Router), Tailwind CSS, TypeScript
 
-## 1. Project Setup
+## 1. Project Setup ✅
 - [x] Initialize Next.js project with TypeScript
-- [x] Install and configure shadcn/ui
 - [x] Set up Tailwind CSS
 - [x] Configure environment variables (API base URL)
 - [x] Set up folder structure (components, lib, hooks, services, types)
-- [x] Create API client (axios/fetch wrapper)
+- [x] Create API client (axios wrapper)
 
-## 2. Layout & Navigation
+## 2. Layout & Navigation ✅
 - [x] Root layout with header/footer
 - [x] Navbar component (logo, nav links, auth buttons)
 - [x] Mobile responsive sidebar/menu
 - [x] Footer component
 - [x] Loading and error states (Suspense, error boundaries)
 
-## 3. Authentication Pages
-- [ ] `/login` - Login page
-  - [ ] Email/password form (shadcn Form, Input, Button)
-  - [ ] API: `POST /api/auth/login`
-- [ ] `/register` - Signup page
-  - [ ] Registration form with address input
-  - [ ] API: `POST /api/auth/register`
-- [ ] `/verify-email` - Email verification page
-  - [ ] API: `POST /api/auth/verify-email`
-- [ ] Auth context/provider for JWT management
-- [ ] Protected route middleware
-- [ ] Redirect logic (authenticated/unauthenticated)
+## 3. Authentication Pages ✅
+- [x] `/login` - Login page
+  - [x] Email/password form
+  - [x] API: `POST /api/auth/login`
+- [x] `/register` - Signup page
+  - [x] Registration form with address input
+  - [x] API: `POST /api/auth/register`
+- [x] Auth context/provider for JWT management
+- [x] Protected route components (ProtectedRoute, PublicOnlyRoute)
+- [x] Redirect logic (authenticated/unauthenticated)
 
 ## 4. User Profile
 - [ ] `/profile` - User profile page
@@ -43,8 +40,8 @@
 
 ## 5. Item Listing Pages
 - [ ] `/items` - Browse all items (Home/Explore)
-  - [ ] Item grid/list view (shadcn Card)
-  - [ ] Pagination (shadcn Pagination)
+  - [ ] Item grid/list view
+  - [ ] Pagination
   - [ ] API: `GET /api/items`
 - [ ] `/items/[id]` - Item detail page
   - [ ] Image carousel
@@ -53,7 +50,7 @@
   - [ ] API: `GET /api/items/:id`
 - [ ] `/items/new` - Create item listing
   - [ ] Form: title, description, category, images, condition
-  - [ ] Image upload (shadcn Input type file)
+  - [ ] Image upload
   - [ ] API: `POST /api/items`
 - [ ] `/items/[id]/edit` - Edit item page
   - [ ] Pre-filled form
@@ -63,22 +60,22 @@
   - [ ] API: `GET /api/items/my-items`
 
 ## 6. Search & Filter
-- [ ] Search bar component (shadcn Input)
+- [ ] Search bar component
   - [ ] API: `GET /api/items/search`
-- [ ] Filter sidebar/sheet (shadcn Sheet, Select, Slider)
-  - [ ] Category filter (shadcn Select)
-  - [ ] Location/radius filter (map or input)
-  - [ ] Availability toggle (shadcn Switch)
+- [ ] Filter sidebar/sheet
+  - [ ] Category filter
+  - [ ] Location/radius filter
+  - [ ] Availability toggle
 - [ ] Sort dropdown (distance, date, rating)
 
 ## 7. Borrow Request System
-- [ ] Borrow request modal/dialog (shadcn Dialog)
-  - [ ] Date picker for borrow period (shadcn Calendar)
-  - [ ] Message to owner (shadcn Textarea)
+- [ ] Borrow request modal/dialog
+  - [ ] Date picker for borrow period
+  - [ ] Message to owner
   - [ ] API: `POST /api/requests`
 - [ ] `/requests` - My requests page
-  - [ ] Tabs: Sent / Received (shadcn Tabs)
-  - [ ] Request cards with status badges (shadcn Badge)
+  - [ ] Tabs: Sent / Received
+  - [ ] Request cards with status badges
   - [ ] API: `GET /api/requests`
 - [ ] Request actions
   - [ ] Approve/Reject buttons (for lenders)
@@ -92,38 +89,47 @@
   - [ ] API: `GET /api/conversations`
 - [ ] `/messages/[conversationId]` - Chat page
   - [ ] Message bubbles
-  - [ ] Message input (shadcn Input, Button)
+  - [ ] Message input
   - [ ] API: `GET /api/messages/:conversationId`, `POST /api/messages`
 - [ ] Real-time updates (WebSocket or polling)
 - [ ] Unread message indicator
 
 ## 9. Trust & Safety
-- [ ] Rating modal (shadcn Dialog)
+- [ ] Rating modal
   - [ ] Star rating component
   - [ ] Comment textarea
   - [ ] API: `POST /api/ratings`
-- [ ] Report modal (shadcn Dialog)
+- [ ] Report modal
   - [ ] Reason select/textarea
   - [ ] API: `POST /api/reports`
-- [ ] Display user ratings on profile (shadcn Avatar, stars)
+- [ ] Display user ratings on profile
 
-## 10. Components (shadcn/ui)
-- [ ] Button, Input, Textarea, Select
-- [ ] Card, Badge, Avatar
+## 10. Components ✅ (Partial)
+- [x] Button
+- [x] Input (with label/error)
+- [x] Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter
+- [x] Alert, AlertTitle, AlertDescription
+- [x] Loading spinner
+- [x] Skeleton loaders
+- [x] EmptyState
+- [x] ErrorBoundary
 - [ ] Dialog, Sheet, Tabs
-- [ ] Form (react-hook-form + zod)
+- [ ] Select, Textarea
+- [ ] Badge, Avatar
 - [ ] Calendar, DatePicker
 - [ ] Toast/Sonner for notifications
-- [ ] Skeleton loaders
 - [ ] Dropdown menu (user menu)
 
-## 11. Utilities & Hooks
-- [ ] `useAuth` - Authentication hook
+## 11. Utilities & Hooks ✅ (Partial)
+- [x] `useAuth` / `useAuthContext` - Authentication hook
+- [x] API service functions (lib/api.ts)
+- [x] Type definitions (types/index.ts)
+- [x] Auth service (services/auth.ts)
+- [x] Items service (services/items.ts)
+- [x] Requests service (services/requests.ts)
 - [ ] `useItems` - Fetch items hook
 - [ ] `useRequests` - Borrow requests hook
 - [ ] `useMessages` - Messaging hook
-- [ ] API service functions (lib/api.ts)
-- [ ] Type definitions (types/index.ts)
 
 ## 12. Testing & Deployment
 - [ ] Component tests (Jest/React Testing Library)

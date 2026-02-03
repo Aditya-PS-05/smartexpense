@@ -1,16 +1,15 @@
 # Backend TODO - Neighborhood Lending Library
 
 ## 1. Project Setup ✅
-- [x] Initialize Node.js/Express project (or preferred framework)
-- [x] Set up database (PostgreSQL/MongoDB)
+- [x] Initialize Node.js/Express project
+- [x] Set up database (MongoDB)
 - [x] Configure environment variables
 - [x] Set up project structure (routes, controllers, models, middleware)
 
-## 2. User Registration & Verification ✅
-- [x] User model (name, email, password, address, phone, verified status, profile image)
+## 2. User Registration & Authentication ✅
+- [x] User model (name, email, password, address, phone, profile image)
 - [x] POST `/api/auth/register` - User signup
 - [x] POST `/api/auth/login` - User login with JWT
-- [x] POST `/api/auth/verify-email` - Email verification
 - [x] GET `/api/auth/me` - Get current user profile
 - [x] PUT `/api/auth/profile` - Update user profile
 - [x] Implement password hashing (bcrypt)
@@ -39,6 +38,7 @@
 - [x] PUT `/api/requests/:id/approve` - Approve request
 - [x] PUT `/api/requests/:id/reject` - Reject request
 - [x] PUT `/api/requests/:id/complete` - Mark as returned
+- [x] PUT `/api/requests/:id/cancel` - Cancel request
 
 ## 6. Messaging System ✅
 - [x] Message/Conversation model
@@ -58,8 +58,8 @@
 ## 8. Middleware & Utilities ✅
 - [x] Authentication middleware
 - [x] Error handling middleware
-- [x] Input validation (Joi/express-validator)
-- [x] File upload for images (Multer + cloud storage)
+- [x] Input validation
+- [x] File upload for images (Multer)
 - [x] Rate limiting
 
 ## 9. Testing & Deployment
