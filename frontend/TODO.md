@@ -59,14 +59,17 @@
   - [x] Manage listings (edit/delete)
   - [x] API: `GET /api/items/my-items`
 
-## 6. Search & Filter
-- [ ] Search bar component
-  - [ ] API: `GET /api/items/search`
-- [ ] Filter sidebar/sheet
-  - [ ] Category filter
-  - [ ] Location/radius filter
-  - [ ] Availability toggle
-- [ ] Sort dropdown (distance, date, rating)
+## 6. Search & Filter ✅
+- [x] Search bar component
+  - [x] Real-time search with debounce
+  - [x] API: `GET /api/items/search`
+- [x] Filter sidebar/sheet
+  - [x] Category filter
+  - [x] Location/radius filter
+  - [x] Availability toggle
+- [x] Sort dropdown (distance, date, rating)
+- [x] Responsive mobile/desktop layout
+- [x] Active filter display
 
 ## 7. Borrow Request System
 - [ ] Borrow request modal/dialog

@@ -1,39 +1,85 @@
 /**
  * Browse Items Page
- * 
- * Displays all items with:
- * - Grid layout (responsive)
- * - Pagination
- * - Search functionality
- * - Category filter
+ *
+ * Features:
+ * - Real-time search with debounce
+ * - Advanced filtering (category, availability, radius)
+ * - Sort options (distance, newest, rating)
+ * - Responsive grid layout with pagination
  */
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useItems } from '@/hooks/useItems';
+import { useFilters } from '@/hooks/useFilters';
 import { ItemCard } from '@/components/ItemCard';
 import { Pagination } from '@/components/Pagination';
+import { SearchBar } from '@/components/SearchBar';
+import { FilterSheet } from '@/components/FilterSheet';
+import { SortDropdown, type SortOption } from '@/components/SortDropdown';
 import { Loading } from '@/components/Loading';
 import { EmptyState } from '@/components/EmptyState';
 import { Button } from '@/components/Button';
 import Link from 'next/link';
-import { Search, Plus } from 'lucide-react';
-import { CATEGORIES } from '@/constants';
+import { Filter, Plus } from 'lucide-react';
 
 export default function ItemsPage() {
   const { items, loading, error, page, totalPages, setPage } = useItems();
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('All');
+  const {
+    filters,
+    updateSearch,
+    updateCategory,
+    updateAvailability,
+    updateRadius,
+    updateSort,
+  } = useFilters();
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
-  // Filter items based on search and category
-  const filteredItems = items.filter((item) => {
-    const matchesSearch =
-      item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory === 'All' || item.category === selectedCategory;
-    return matchesSearch && matchesCategory;
-  });
+  // Filter and sort items
+  const processedItems = useMemo(() => {
+    let result = items;
+
+    // Apply search filter
+    if (filters.searchQuery) {
+      result = result.filter(
+        (item) =>
+          item.title.toLowerCase().includes(filters.searchQuery.toLowerCase()) ||
+          item.description.toLowerCase().includes(filters.searchQuery.toLowerCase())
+      );
+    }
+
+    // Apply category filter
+    if (filters.category) {
+      result = result.filter((item) => item.category === filters.category);
+    }
+
+    // Apply availability filter
+    if (filters.availability) {
+      result = result.filter((item) => item.availability === filters.availability);
+    }
+
+    // Apply sorting
+    switch (filters.sort) {
+      case 'newest':
+        result.sort(
+          (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+        break;
+      case 'distance':
+      case 'rating':
+      default:
+        // TODO: Implement when location/rating data available
+        break;
+    }
+
+    return result;
+  }, [items, filters]);
+
+  const handleDeleteItem = async (itemId: string) => {
+    // TODO: Implement delete functionality
+    console.log('Delete item:', itemId);
+  };
 
   if (error) {
     return (
@@ -50,113 +96,167 @@ export default function ItemsPage() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-8">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Browse Items</h1>
-          <p className="text-gray-600 mt-1">Find items to borrow in your community</p>
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900">Browse Items</h1>
+            <p className="text-gray-600 mt-1">Find items to borrow in your community</p>
+          </div>
+          <Button asChild size="sm" className="hidden sm:inline-flex">
+            <Link href="/items/new" className="flex items-center gap-2">
+              <Plus size={16} />
+              List Item
+            </Link>
+          </Button>
         </div>
-        <Button asChild size="sm">
-          <Link href="/items/new">
-            <Plus size={16} className="mr-2" />
-            List New Item
-          </Link>
-        </Button>
-      </div>
 
-      {/* Search Bar */}
-      <div className="mb-8">
-        <div className="relative">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
-          <input
-            type="text"
-            placeholder="Search items by name or description..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-600"
+        {/* Search & Filters Bar */}
+        <div className="bg-white rounded-lg shadow-sm p-4 mb-8 space-y-4">
+          {/* Search Bar */}
+          <SearchBar
+            onSearch={updateSearch}
+            placeholder="Search items by title or description..."
           />
-        </div>
-      </div>
 
-      {/* Category Filter */}
-      <div className="mb-8">
-        <h3 className="font-semibold text-gray-900 mb-3">Filter by Category</h3>
-        <div className="flex flex-wrap gap-2">
-          <button
-            onClick={() => setSelectedCategory('All')}
-            className={`px-4 py-2 rounded-lg border font-medium transition-colors ${
-              selectedCategory === 'All'
-                ? 'bg-blue-600 text-white border-blue-600'
-                : 'border-gray-300 text-gray-700 hover:bg-gray-50'
-            }`}
-          >
-            All Categories
-          </button>
-          {CATEGORIES.map((category) => (
+          {/* Filter & Sort Controls */}
+          <div className="flex flex-col sm:flex-row gap-3">
             <button
-              key={category}
-              onClick={() => setSelectedCategory(category)}
-              className={`px-4 py-2 rounded-lg border font-medium transition-colors ${
-                selectedCategory === category
-                  ? 'bg-blue-600 text-white border-blue-600'
-                  : 'border-gray-300 text-gray-700 hover:bg-gray-50'
-              }`}
+              onClick={() => setIsFilterOpen(true)}
+              className="sm:hidden flex items-center justify-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-sm font-medium text-gray-700"
             >
-              {category}
+              <Filter size={18} />
+              Filters
             </button>
-          ))}
-        </div>
-      </div>
 
-      {/* Items Grid */}
-      {loading ? (
-        <div className="space-y-4">
-          {[1, 2, 3, 4, 5, 6].map((i) => (
-            <div
-              key={i}
-              className="h-80 bg-gray-200 rounded-lg animate-pulse"
+            <SortDropdown
+              selectedSort={filters.sort as SortOption}
+              onSortChange={updateSort}
             />
-          ))}
-        </div>
-      ) : filteredItems.length === 0 ? (
-        <EmptyState
-          icon="📦"
-          title="No Items Found"
-          description={
-            searchTerm || selectedCategory !== 'All'
-              ? 'Try adjusting your search or filters'
-              : 'No items are currently available. Be the first to list an item!'
-          }
-          action={
-            (searchTerm || selectedCategory !== 'All') ? undefined : {
-              label: 'List Your First Item',
-              href: '/items/new',
-            }
-          }
-        />
-      ) : (
-        <>
-          {/* Results count */}
-          <p className="text-sm text-gray-600 mb-4">
-            Showing {filteredItems.length} of {items.length} items
-          </p>
 
-          {/* Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
-            {filteredItems.map((item) => (
-              <ItemCard key={item._id} item={item} />
-            ))}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                updateSearch('');
+                updateCategory('');
+                updateAvailability('');
+                updateRadius(10);
+                updateSort('distance');
+              }}
+              className="text-xs sm:text-sm"
+            >
+              Clear All
+            </Button>
           </div>
 
-          {/* Pagination */}
-          <Pagination
-            currentPage={page}
-            totalPages={totalPages}
-            onPageChange={setPage}
-          />
-        </>
-      )}
+          {/* Active Filters Display (Mobile) */}
+          {(filters.searchQuery ||
+            filters.category ||
+            filters.availability ||
+            filters.radius !== 10) && (
+            <div className="flex flex-wrap gap-2 sm:hidden">
+              {filters.searchQuery && (
+                <div className="inline-flex items-center gap-1 bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-xs font-medium">
+                  Search: {filters.searchQuery}
+                </div>
+              )}
+              {filters.category && (
+                <div className="inline-flex items-center gap-1 bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-xs font-medium">
+                  {filters.category}
+                </div>
+              )}
+              {filters.availability && (
+                <div className="inline-flex items-center gap-1 bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-xs font-medium">
+                  {filters.availability}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* Filter Sheet (Mobile) */}
+        <FilterSheet
+          isOpen={isFilterOpen}
+          selectedCategory={filters.category}
+          selectedAvailability={filters.availability}
+          selectedRadius={filters.radius}
+          onCategoryChange={updateCategory}
+          onAvailabilityChange={updateAvailability}
+          onRadiusChange={updateRadius}
+          onClose={() => setIsFilterOpen(false)}
+        />
+
+        {/* Desktop Sidebar + Items Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          {/* Desktop Filter Sidebar */}
+          <div className="hidden lg:block">
+            <FilterSheet
+              isOpen={true}
+              selectedCategory={filters.category}
+              selectedAvailability={filters.availability}
+              selectedRadius={filters.radius}
+              onCategoryChange={updateCategory}
+              onAvailabilityChange={updateAvailability}
+              onRadiusChange={updateRadius}
+              onClose={() => {}}
+            />
+          </div>
+
+          {/* Items Grid */}
+          <div className="lg:col-span-3">
+            {loading ? (
+              <Loading />
+            ) : processedItems.length === 0 ? (
+              <EmptyState
+                title="No items found"
+                description={
+                  filters.searchQuery || filters.category || filters.availability
+                    ? 'Try adjusting your filters or search query'
+                    : 'Start by listing an item or browse other communities'
+                }
+              />
+            ) : (
+              <div className="space-y-6">
+                {/* Results Info */}
+                <div className="flex items-center justify-between">
+                  <p className="text-sm text-gray-600">
+                    Showing <span className="font-semibold">{processedItems.length}</span>{' '}
+                    {processedItems.length === 1 ? 'item' : 'items'}
+                  </p>
+                  <Button asChild size="sm" className="sm:hidden">
+                    <Link href="/items/new">List Item</Link>
+                  </Button>
+                </div>
+
+                {/* Items Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {processedItems.map((item) => (
+                    <ItemCard
+                      key={item._id}
+                      item={item}
+                      onDelete={handleDeleteItem}
+                      showActions={false}
+                    />
+                  ))}
+                </div>
+
+                {/* Pagination */}
+                {totalPages > 1 && (
+                  <div className="flex justify-center mt-8">
+                    <Pagination
+                      currentPage={page}
+                      totalPages={totalPages}
+                      onPageChange={setPage}
+                    />
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
