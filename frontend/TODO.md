@@ -27,16 +27,16 @@
 - [x] Protected route components (ProtectedRoute, PublicOnlyRoute)
 - [x] Redirect logic (authenticated/unauthenticated)
 
-## 4. User Profile
-- [ ] `/profile` - User profile page
-  - [ ] Display user info, ratings, listed items
-  - [ ] API: `GET /api/auth/me`
-- [ ] `/profile/edit` - Edit profile page
-  - [ ] Update form (name, address, phone, image)
-  - [ ] API: `PUT /api/auth/profile`
-- [ ] `/users/[id]` - Public user profile
-  - [ ] Display user ratings and reviews
-  - [ ] API: `GET /api/users/:id/ratings`
+## 4. User Profile ✅
+- [x] `/profile` - User profile page
+  - [x] Display user info, ratings, listed items
+  - [x] API: `GET /api/auth/me`
+- [x] `/profile/edit` - Edit profile page
+  - [x] Update form (name, address, phone, image)
+  - [x] API: `PUT /api/auth/profile`
+- [x] `/users/[id]` - Public user profile
+  - [x] Display user ratings and reviews
+  - [x] API: `GET /api/users/:id/ratings`
 
 ## 5. Item Listing Pages
 - [ ] `/items` - Browse all items (Home/Explore)
