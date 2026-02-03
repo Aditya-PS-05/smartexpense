@@ -3,12 +3,12 @@
 > **Tech Stack**: Next.js 14 (App Router), shadcn/ui, Tailwind CSS
 
 ## 1. Project Setup
-- [ ] Initialize Next.js project with TypeScript
-- [ ] Install and configure shadcn/ui
-- [ ] Set up Tailwind CSS
-- [ ] Configure environment variables (API base URL)
-- [ ] Set up folder structure (components, lib, hooks, services, types)
-- [ ] Create API client (axios/fetch wrapper)
+- [x] Initialize Next.js project with TypeScript
+- [x] Install and configure shadcn/ui
+- [x] Set up Tailwind CSS
+- [x] Configure environment variables (API base URL)
+- [x] Set up folder structure (components, lib, hooks, services, types)
+- [x] Create API client (axios/fetch wrapper)
 
 ## 2. Layout & Navigation
 - [ ] Root layout with header/footer
