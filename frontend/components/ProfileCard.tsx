@@ -22,7 +22,7 @@ interface ProfileCardProps {
 }
 
 export function ProfileCard({ user, isOwnProfile = false, onMessage }: ProfileCardProps) {
-  const joinDate = new Date(user.createdAt).toLocaleDateString('en-US', {
+  const joinDate = new Date(user.createdAt || new Date()).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
   });
@@ -79,7 +79,7 @@ export function ProfileCard({ user, isOwnProfile = false, onMessage }: ProfileCa
           <p className="text-gray-600 text-sm mt-1">{user.email}</p>
 
           {/* Location */}
-          {user.address?.city && (
+          {typeof user.address === 'object' && user.address?.city && (
             <div className="flex items-center gap-1 text-gray-600 text-sm mt-2">
               <MapPin size={16} />
               <span>
@@ -96,9 +96,9 @@ export function ProfileCard({ user, isOwnProfile = false, onMessage }: ProfileCa
           <div className="text-center">
             <div className="flex items-center justify-center gap-1 mb-1">
               <Star size={16} className="text-yellow-400 fill-yellow-400" />
-              <span className="font-bold text-gray-900">{user.averageRating.toFixed(1)}</span>
+              <span className="font-bold text-gray-900">{(user.averageRating || 0).toFixed(1)}</span>
             </div>
-            <p className="text-xs text-gray-500">{user.totalRatings} reviews</p>
+            <p className="text-xs text-gray-500">{user.totalRatings || 0} reviews</p>
           </div>
 
           {/* Member since */}
@@ -127,7 +127,7 @@ export function ProfileCard({ user, isOwnProfile = false, onMessage }: ProfileCa
             <p className="text-sm text-gray-600">
               <span className="font-semibold">Phone:</span> {user.phone}
             </p>
-            {user.address?.street && (
+            {typeof user.address === 'object' && user.address?.street && (
               <p className="text-sm text-gray-600 mt-2">
                 <span className="font-semibold">Address:</span>
                 <br />

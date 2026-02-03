@@ -38,26 +38,26 @@
   - [x] Display user ratings and reviews
   - [x] API: `GET /api/users/:id/ratings`
 
-## 5. Item Listing Pages
-- [ ] `/items` - Browse all items (Home/Explore)
-  - [ ] Item grid/list view
-  - [ ] Pagination
-  - [ ] API: `GET /api/items`
-- [ ] `/items/[id]` - Item detail page
-  - [ ] Image carousel
-  - [ ] Item info, owner info, availability
-  - [ ] Borrow request button
-  - [ ] API: `GET /api/items/:id`
-- [ ] `/items/new` - Create item listing
-  - [ ] Form: title, description, category, images, condition
-  - [ ] Image upload
-  - [ ] API: `POST /api/items`
-- [ ] `/items/[id]/edit` - Edit item page
-  - [ ] Pre-filled form
-  - [ ] API: `PUT /api/items/:id`
-- [ ] `/my-items` - User's listed items
-  - [ ] Manage listings (edit/delete)
-  - [ ] API: `GET /api/items/my-items`
+## 5. Item Listing Pages ✅
+- [x] `/items` - Browse all items (Home/Explore)
+  - [x] Item grid/list view
+  - [x] Pagination
+  - [x] API: `GET /api/items`
+- [x] `/items/[id]` - Item detail page
+  - [x] Image carousel
+  - [x] Item info, owner info, availability
+  - [x] Borrow request button
+  - [x] API: `GET /api/items/:id`
+- [x] `/items/new` - Create item listing
+  - [x] Form: title, description, category, images, condition
+  - [x] Image upload
+  - [x] API: `POST /api/items`
+- [x] `/items/[id]/edit` - Edit item page
+  - [x] Pre-filled form
+  - [x] API: `PUT /api/items/:id`
+- [x] `/my-items` - User's listed items
+  - [x] Manage listings (edit/delete)
+  - [x] API: `GET /api/items/my-items`
 
 ## 6. Search & Filter
 - [ ] Search bar component

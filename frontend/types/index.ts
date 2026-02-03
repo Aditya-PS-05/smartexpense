@@ -13,11 +13,19 @@ export interface User {
   email: string;
   name: string;
   phone?: string;
-  address?: string;
+  address?: {
+    street?: string;
+    city?: string;
+    state?: string;
+    zipCode?: string;
+    country?: string;
+  };
   profileImage?: string;
   averageRating?: number;
   totalRatings?: number;
   isVerified?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 // Auth
@@ -99,6 +107,19 @@ export interface CreateBorrowReq {
   startDate: string;
   endDate: string;
   message?: string;
+}
+
+// Rating
+export interface Rating {
+  _id: string;
+  giver?: User;
+  receiver?: User;
+  rating: number;
+  review?: string;
+  item?: Item;
+  request?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 // Pagination

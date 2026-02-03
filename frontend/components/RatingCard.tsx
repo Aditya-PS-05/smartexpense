@@ -19,7 +19,7 @@ interface RatingCardProps {
 }
 
 export function RatingCard({ rating }: RatingCardProps) {
-  const reviewDate = new Date(rating.createdAt).toLocaleDateString('en-US', {
+  const reviewDate = new Date(rating.createdAt || new Date()).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'short',
     day: 'numeric',

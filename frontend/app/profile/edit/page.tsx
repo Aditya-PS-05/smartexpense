@@ -20,6 +20,7 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { ArrowLeft, Upload } from 'lucide-react';
 import Link from 'next/link';
+import type { User } from '@/types';
 
 export default function EditProfilePage() {
   const router = useRouter();
@@ -47,7 +48,15 @@ export default function EditProfilePage() {
         name: profile.name,
         email: profile.email,
         phone: profile.phone || '',
-        address: profile.address || { street: '', city: '', state: '', zipCode: '' },
+        address:
+          typeof profile.address === 'object' && profile.address
+            ? {
+                street: profile.address.street || '',
+                city: profile.address.city || '',
+                state: profile.address.state || '',
+                zipCode: profile.address.zipCode || '',
+              }
+            : { street: '', city: '', state: '', zipCode: '' },
         profileImage: profile.profileImage || '',
       });
     }
@@ -97,7 +106,13 @@ export default function EditProfilePage() {
     setMessage('');
 
     try {
-      await updateProfile(formData);
+      await updateProfile({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        address: formData.address,
+        profileImage: formData.profileImage,
+      } as Partial<User>);
       setMessage('Profile updated successfully!');
       setTimeout(() => router.push('/profile'), 2000);
     } catch (err) {
@@ -188,10 +203,11 @@ export default function EditProfilePage() {
           <div className="space-y-4">
             {/* Name */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
                 Full Name
               </label>
               <input
+                id="name"
                 type="text"
                 name="name"
                 value={formData.name}
@@ -203,8 +219,9 @@ export default function EditProfilePage() {
 
             {/* Email (read-only) */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
               <input
+                id="email"
                 type="email"
                 value={formData.email}
                 disabled
@@ -215,10 +232,11 @@ export default function EditProfilePage() {
 
             {/* Phone */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
                 Phone Number
               </label>
               <input
+                id="phone"
                 type="tel"
                 name="phone"
                 value={formData.phone}

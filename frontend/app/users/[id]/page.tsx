@@ -119,11 +119,11 @@ export default function PublicProfilePage({ params }: PageProps) {
               <p className="text-sm text-gray-600 mb-1">Overall Rating</p>
               <div className="flex items-center gap-2">
                 <span className="text-3xl font-bold text-blue-600">
-                  {user.averageRating.toFixed(1)}
-                </span>
-                <span className="text-sm text-gray-500">/ 5.0</span>
-              </div>
-              <p className="text-xs text-gray-500 mt-1">Based on {user.totalRatings} reviews</p>
+                {(user.averageRating || 0).toFixed(1)}
+              </span>
+              <span className="text-sm text-gray-500">/ 5.0</span>
+            </div>
+            <p className="text-xs text-gray-500 mt-1">Based on {user.totalRatings || 0} reviews</p>
             </div>
 
             <hr className="my-4" />
@@ -132,7 +132,7 @@ export default function PublicProfilePage({ params }: PageProps) {
             <div>
               <p className="text-sm text-gray-600 mb-2">Member Since</p>
               <p className="font-semibold text-gray-900">
-                {new Date(user.createdAt).toLocaleDateString('en-US', {
+                {new Date(user.createdAt || new Date()).toLocaleDateString('en-US', {
                   year: 'numeric',
                   month: 'long',
                 })}

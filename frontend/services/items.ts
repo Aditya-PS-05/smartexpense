@@ -22,7 +22,8 @@ export const itemsAPI = {
     api.get<Paginated<Item>>('/items/search', { params }),
   nearby: (lat: number, lng: number, radius = 10, limit = 20) =>
     api.get<ApiResponse<Item[]>>('/items/nearby', { params: { lat, lng, radius, limit } }),
-  myItems: () => api.get<ApiResponse<Item[]>>('/items/my-items'),
+  myItems: () => api.get<Paginated<Item>>('/items/my-items'),
+  getUserItems: (userId: string) => api.get<Paginated<Item>>(`/users/${userId}/items`),
   create: (data: CreateItemReq) => api.post<ApiResponse<Item>>('/items', data),
   update: (id: string, data: Partial<CreateItemReq>) =>
     api.put<ApiResponse<Item>>(`/items/${id}`, data),
