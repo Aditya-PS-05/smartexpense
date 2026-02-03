@@ -25,12 +25,12 @@
 - [x] DELETE `/api/items/:id` - Delete item (owner only)
 - [x] GET `/api/items/my-items` - Get current user's listed items
 
-## 4. Search & Filter
-- [ ] GET `/api/items/search` - Search items by keyword
-- [ ] Filter by category
-- [ ] Filter by geographical location/radius (geospatial queries)
-- [ ] Filter by availability status
-- [ ] Sort by distance, date added, rating
+## 4. Search & Filter ✅
+- [x] GET `/api/items/search` - Search items by keyword
+- [x] Filter by category
+- [x] Filter by geographical location/radius (geospatial queries)
+- [x] Filter by availability status
+- [x] Sort by distance, date added, rating
 
 ## 5. Borrow Request System
 - [ ] BorrowRequest model (item, borrower, lender, status, dates, pickup details)

@@ -7,11 +7,15 @@ const {
   updateItem,
   deleteItem,
   getMyItems,
+  searchItems,
+  getNearbyItems,
 } = require('../controllers/item.controller');
 const { protect } = require('../middleware/auth.middleware');
 
 // Public routes
 router.get('/', getItems);
+router.get('/search', searchItems);
+router.get('/nearby', getNearbyItems);
 router.get('/my-items', protect, getMyItems);
 router.get('/:id', getItem);
 

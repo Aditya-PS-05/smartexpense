@@ -179,3 +179,205 @@ exports.getMyItems = async (req, res, next) => {
     next(err);
   }
 };
+
+// @desc    Search items by keyword with filters
+// @route   GET /api/items/search
+// @access  Public
+exports.searchItems = async (req, res, next) => {
+  try {
+    const {
+      q,
+      category,
+      condition,
+      availability,
+      lat,
+      lng,
+      radius,
+      sort,
+      page = 1,
+      limit = 10,
+    } = req.query;
+
+    const startIndex = (parseInt(page) - 1) * parseInt(limit);
+    let query = {};
+
+    // Text search by keyword
+    if (q) {
+      query.$text = { $search: q };
+    }
+
+    // Category filter
+    if (category) {
+      query.category = category;
+    }
+
+    // Condition filter
+    if (condition) {
+      query.condition = condition;
+    }
+
+    // Availability filter (default to Available)
+    query.availability = availability || 'Available';
+
+    // Geospatial query - find items within radius (in kilometers)
+    if (lat && lng) {
+      const radiusInKm = parseFloat(radius) || 10; // Default 10km
+      const radiusInRadians = radiusInKm / 6378.1; // Earth's radius in km
+
+      query['location.coordinates'] = {
+        $geoWithin: {
+          $centerSphere: [[parseFloat(lng), parseFloat(lat)], radiusInRadians],
+        },
+      };
+    }
+
+    // Build sort options
+    let sortOption = {};
+    switch (sort) {
+      case 'date_asc':
+        sortOption = { createdAt: 1 };
+        break;
+      case 'date_desc':
+        sortOption = { createdAt: -1 };
+        break;
+      case 'rating':
+        sortOption = { 'owner.averageRating': -1 };
+        break;
+      default:
+        sortOption = { createdAt: -1 };
+    }
+
+    const total = await Item.countDocuments(query);
+
+    let items;
+
+    // If searching near a location, calculate distance
+    if (lat && lng) {
+      items = await Item.aggregate([
+        {
+          $geoNear: {
+            near: {
+              type: 'Point',
+              coordinates: [parseFloat(lng), parseFloat(lat)],
+            },
+            distanceField: 'distance',
+            maxDistance: (parseFloat(radius) || 10) * 1000, // Convert km to meters
+            spherical: true,
+            query: query,
+          },
+        },
+        { $skip: startIndex },
+        { $limit: parseInt(limit) },
+        {
+          $lookup: {
+            from: 'users',
+            localField: 'owner',
+            foreignField: '_id',
+            as: 'owner',
+          },
+        },
+        { $unwind: '$owner' },
+        {
+          $project: {
+            title: 1,
+            description: 1,
+            category: 1,
+            images: 1,
+            condition: 1,
+            availability: 1,
+            location: 1,
+            distance: 1,
+            createdAt: 1,
+            'owner._id': 1,
+            'owner.name': 1,
+            'owner.profileImage': 1,
+            'owner.averageRating': 1,
+          },
+        },
+      ]);
+    } else {
+      items = await Item.find(query)
+        .populate('owner', 'name profileImage averageRating')
+        .sort(sortOption)
+        .skip(startIndex)
+        .limit(parseInt(limit));
+    }
+
+    res.status(200).json({
+      success: true,
+      count: items.length,
+      total,
+      page: parseInt(page),
+      pages: Math.ceil(total / parseInt(limit)),
+      data: items,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// @desc    Get items near a location
+// @route   GET /api/items/nearby
+// @access  Public
+exports.getNearbyItems = async (req, res, next) => {
+  try {
+    const { lat, lng, radius = 10, limit = 20 } = req.query;
+
+    if (!lat || !lng) {
+      return res.status(400).json({
+        success: false,
+        error: 'Please provide latitude and longitude',
+      });
+    }
+
+    const items = await Item.aggregate([
+      {
+        $geoNear: {
+          near: {
+            type: 'Point',
+            coordinates: [parseFloat(lng), parseFloat(lat)],
+          },
+          distanceField: 'distance',
+          maxDistance: parseFloat(radius) * 1000, // Convert km to meters
+          spherical: true,
+          query: { availability: 'Available' },
+        },
+      },
+      { $limit: parseInt(limit) },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'owner',
+          foreignField: '_id',
+          as: 'owner',
+        },
+      },
+      { $unwind: '$owner' },
+      {
+        $project: {
+          title: 1,
+          description: 1,
+          category: 1,
+          images: 1,
+          condition: 1,
+          availability: 1,
+          location: 1,
+          distance: 1,
+          createdAt: 1,
+          'owner._id': 1,
+          'owner.name': 1,
+          'owner.profileImage': 1,
+          'owner.averageRating': 1,
+        },
+      },
+    ]);
+
+    res.status(200).json({
+      success: true,
+      count: items.length,
+      data: items,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
