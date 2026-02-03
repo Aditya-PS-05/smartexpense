@@ -1,5 +1,4 @@
 const User = require('../models/User');
-const crypto = require('crypto');
 
 // @desc    Register user
 // @route   POST /api/auth/register
@@ -26,16 +25,8 @@ exports.register = async (req, res, next) => {
       address,
     });
 
-    // Generate verification token
-    const verificationToken = user.getVerificationToken();
-    await user.save({ validateBeforeSave: false });
-
-    // TODO: Send verification email
-    // For now, we'll just return the token (in production, send via email)
-
     sendTokenResponse(user, 201, res, {
-      message: 'User registered successfully. Please verify your email.',
-      verificationToken, // Remove this in production
+      message: 'User registered successfully.',
     });
   } catch (err) {
     next(err);
@@ -78,50 +69,6 @@ exports.login = async (req, res, next) => {
     }
 
     sendTokenResponse(user, 200, res);
-  } catch (err) {
-    next(err);
-  }
-};
-
-// @desc    Verify email
-// @route   POST /api/auth/verify-email
-// @access  Public
-exports.verifyEmail = async (req, res, next) => {
-  try {
-    const { token } = req.body;
-
-    if (!token) {
-      return res.status(400).json({
-        success: false,
-        error: 'Please provide verification token',
-      });
-    }
-
-    // Hash token
-    const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
-
-    const user = await User.findOne({
-      verificationToken: hashedToken,
-      verificationTokenExpire: { $gt: Date.now() },
-    });
-
-    if (!user) {
-      return res.status(400).json({
-        success: false,
-        error: 'Invalid or expired verification token',
-      });
-    }
-
-    // Verify user
-    user.isVerified = true;
-    user.verificationToken = undefined;
-    user.verificationTokenExpire = undefined;
-    await user.save();
-
-    res.status(200).json({
-      success: true,
-      message: 'Email verified successfully',
-    });
   } catch (err) {
     next(err);
   }

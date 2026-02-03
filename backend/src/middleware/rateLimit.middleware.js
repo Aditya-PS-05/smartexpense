@@ -53,7 +53,7 @@ const generalLimiter = createRateLimiter({
 
 const authLimiter = createRateLimiter({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 10, // stricter limit for auth routes
+  max: 50, // allow more attempts for development
   message: 'Too many login attempts, please try again after 15 minutes',
 });
 
