@@ -6,15 +6,15 @@
 - [x] Configure environment variables
 - [x] Set up project structure (routes, controllers, models, middleware)
 
-## 2. User Registration & Verification
-- [ ] User model (name, email, password, address, phone, verified status, profile image)
-- [ ] POST `/api/auth/register` - User signup
-- [ ] POST `/api/auth/login` - User login with JWT
-- [ ] POST `/api/auth/verify-email` - Email verification
-- [ ] GET `/api/auth/me` - Get current user profile
-- [ ] PUT `/api/auth/profile` - Update user profile
-- [ ] Implement password hashing (bcrypt)
-- [ ] JWT middleware for protected routes
+## 2. User Registration & Verification ✅
+- [x] User model (name, email, password, address, phone, verified status, profile image)
+- [x] POST `/api/auth/register` - User signup
+- [x] POST `/api/auth/login` - User login with JWT
+- [x] POST `/api/auth/verify-email` - Email verification
+- [x] GET `/api/auth/me` - Get current user profile
+- [x] PUT `/api/auth/profile` - Update user profile
+- [x] Implement password hashing (bcrypt)
+- [x] JWT middleware for protected routes
 
 ## 3. Item Management (CRUD)
 - [ ] Item model (title, description, category, images, condition, availability, location, owner)
