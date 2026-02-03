@@ -1,11 +1,23 @@
+// Base API response wrapper
+export interface ApiResponse<T> {
+  success: boolean;
+  data: T;
+  message?: string;
+  error?: string;
+}
+
 // User
 export interface User {
-  id: string;
+  _id: string;
+  id?: string;
   email: string;
   name: string;
   phone?: string;
   address?: string;
-  rating: number;
+  profileImage?: string;
+  averageRating?: number;
+  totalRatings?: number;
+  isVerified?: boolean;
 }
 
 // Auth
@@ -23,19 +35,37 @@ export interface RegisterReq {
 }
 
 export interface AuthRes {
+  success: boolean;
   token: string;
-  user: User;
+  data: {
+    id: string;
+    name: string;
+    email: string;
+    isVerified: boolean;
+    profileImage?: string;
+  };
+  message?: string;
+  verificationToken?: string;
 }
 
 // Items
 export interface Item {
-  id: string;
+  _id: string;
   title: string;
   description: string;
   category: string;
   images: string[];
+  condition: 'New' | 'Like New' | 'Good' | 'Fair' | 'Poor';
+  availability: 'Available' | 'Borrowed' | 'Unavailable';
   owner: User;
-  available: boolean;
+  location?: {
+    type: string;
+    coordinates: [number, number];
+    address?: string;
+  };
+  distance?: number;
+  createdAt: string;
+  updatedAt?: string;
 }
 
 export interface CreateItemReq {
@@ -43,28 +73,40 @@ export interface CreateItemReq {
   description: string;
   category: string;
   images: string[];
+  condition?: string;
+  location?: {
+    type: string;
+    coordinates: [number, number];
+    address?: string;
+  };
 }
 
 // Requests
 export interface BorrowReq {
-  id: string;
-  itemId: string;
+  _id: string;
+  item: Item | string;
   borrower: User;
-  status: 'pending' | 'approved' | 'rejected' | 'returned';
+  lender: User;
+  status: 'pending' | 'approved' | 'rejected' | 'completed' | 'cancelled';
   startDate: string;
   endDate: string;
+  message?: string;
+  createdAt: string;
 }
 
 export interface CreateBorrowReq {
-  itemId: string;
+  item: string;
   startDate: string;
   endDate: string;
-  message: string;
+  message?: string;
 }
 
 // Pagination
 export interface Paginated<T> {
-  data: T[];
+  success: boolean;
+  count: number;
   total: number;
   page: number;
+  pages: number;
+  data: T[];
 }

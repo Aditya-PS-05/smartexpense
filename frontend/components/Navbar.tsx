@@ -14,12 +14,12 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/Button';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuthContext } from '@/contexts/AuthContext';
 import { Menu, X } from 'lucide-react';
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const { user, loading } = useAuth();
+  const { user, loading, logout } = useAuthContext();
 
   // Navigation links for authenticated users
   const authLinks = [
@@ -69,10 +69,7 @@ export function Navbar() {
               <Button
                 size="sm"
                 variant="outline"
-                onClick={() => {
-                  localStorage.removeItem('token');
-                  window.location.href = '/login';
-                }}
+                onClick={logout}
               >
                 Logout
               </Button>
@@ -130,10 +127,7 @@ export function Navbar() {
                   <Button
                     size="sm"
                     variant="outline"
-                    onClick={() => {
-                      localStorage.removeItem('token');
-                      window.location.href = '/login';
-                    }}
+                    onClick={logout}
                   >
                     Logout
                   </Button>

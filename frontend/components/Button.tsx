@@ -32,8 +32,8 @@ export function Button({
 
   // If asChild, apply classes to child instead of button
   if (asChild && React.isValidElement(children)) {
-    return React.cloneElement(children as React.ReactElement<any>, {
-      className: cn((children as React.ReactElement<any>).props.className, buttonClass),
+    return React.cloneElement(children as React.ReactElement<{ className?: string }>, {
+      className: cn((children as React.ReactElement<{ className?: string }>).props.className, buttonClass),
     });
   }
 
