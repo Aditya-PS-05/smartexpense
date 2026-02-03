@@ -40,12 +40,12 @@
 - [x] PUT `/api/requests/:id/reject` - Reject request
 - [x] PUT `/api/requests/:id/complete` - Mark as returned
 
-## 6. Messaging System
-- [ ] Message/Conversation model
-- [ ] POST `/api/messages` - Send message
-- [ ] GET `/api/messages/:conversationId` - Get conversation messages
-- [ ] GET `/api/conversations` - Get user's conversations
-- [ ] WebSocket support for real-time messaging (optional)
+## 6. Messaging System ✅
+- [x] Message/Conversation model
+- [x] POST `/api/messages` - Send message
+- [x] GET `/api/messages/:conversationId` - Get conversation messages
+- [x] GET `/api/conversations` - Get user's conversations
+- [ ] WebSocket support for real-time messaging (optional - future enhancement)
 
 ## 7. Trust & Safety (Ratings/Reports)
 - [ ] Rating model (rater, rated user, item, score, comment)

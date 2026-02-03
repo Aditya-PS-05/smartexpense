@@ -1,13 +1,11 @@
 const express = require('express');
 const router = express.Router();
+const { sendMessage, getMessages } = require('../controllers/message.controller');
+const { protect } = require('../middleware/auth.middleware');
 
-// Placeholder routes - to be implemented
-router.get('/:conversationId', (req, res) => {
-  res.json({ message: 'Get conversation messages route - to be implemented' });
-});
+router.use(protect);
 
-router.post('/', (req, res) => {
-  res.json({ message: 'Send message route - to be implemented' });
-});
+router.post('/', sendMessage);
+router.get('/:conversationId', getMessages);
 
 module.exports = router;
