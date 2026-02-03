@@ -1,33 +1,23 @@
 const express = require('express');
 const router = express.Router();
+const {
+  createItem,
+  getItems,
+  getItem,
+  updateItem,
+  deleteItem,
+  getMyItems,
+} = require('../controllers/item.controller');
+const { protect } = require('../middleware/auth.middleware');
 
-// Placeholder routes - to be implemented
-router.get('/', (req, res) => {
-  res.json({ message: 'Get all items route - to be implemented' });
-});
+// Public routes
+router.get('/', getItems);
+router.get('/my-items', protect, getMyItems);
+router.get('/:id', getItem);
 
-router.get('/search', (req, res) => {
-  res.json({ message: 'Search items route - to be implemented' });
-});
-
-router.get('/my-items', (req, res) => {
-  res.json({ message: 'Get my items route - to be implemented' });
-});
-
-router.get('/:id', (req, res) => {
-  res.json({ message: 'Get single item route - to be implemented' });
-});
-
-router.post('/', (req, res) => {
-  res.json({ message: 'Create item route - to be implemented' });
-});
-
-router.put('/:id', (req, res) => {
-  res.json({ message: 'Update item route - to be implemented' });
-});
-
-router.delete('/:id', (req, res) => {
-  res.json({ message: 'Delete item route - to be implemented' });
-});
+// Protected routes
+router.post('/', protect, createItem);
+router.put('/:id', protect, updateItem);
+router.delete('/:id', protect, deleteItem);
 
 module.exports = router;

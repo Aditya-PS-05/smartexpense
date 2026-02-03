@@ -16,14 +16,14 @@
 - [x] Implement password hashing (bcrypt)
 - [x] JWT middleware for protected routes
 
-## 3. Item Management (CRUD)
-- [ ] Item model (title, description, category, images, condition, availability, location, owner)
-- [ ] POST `/api/items` - Create new item listing
-- [ ] GET `/api/items` - Get all items (with pagination)
-- [ ] GET `/api/items/:id` - Get single item details
-- [ ] PUT `/api/items/:id` - Update item (owner only)
-- [ ] DELETE `/api/items/:id` - Delete item (owner only)
-- [ ] GET `/api/items/my-items` - Get current user's listed items
+## 3. Item Management (CRUD) ✅
+- [x] Item model (title, description, category, images, condition, availability, location, owner)
+- [x] POST `/api/items` - Create new item listing
+- [x] GET `/api/items` - Get all items (with pagination)
+- [x] GET `/api/items/:id` - Get single item details
+- [x] PUT `/api/items/:id` - Update item (owner only)
+- [x] DELETE `/api/items/:id` - Delete item (owner only)
+- [x] GET `/api/items/my-items` - Get current user's listed items
 
 ## 4. Search & Filter
 - [ ] GET `/api/items/search` - Search items by keyword
