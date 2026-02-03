@@ -1,25 +1,25 @@
 const express = require('express');
 const router = express.Router();
+const {
+  createRequest,
+  getRequests,
+  getRequest,
+  approveRequest,
+  rejectRequest,
+  completeRequest,
+  cancelRequest,
+} = require('../controllers/request.controller');
+const { protect } = require('../middleware/auth.middleware');
 
-// Placeholder routes - to be implemented
-router.get('/', (req, res) => {
-  res.json({ message: 'Get all requests route - to be implemented' });
-});
+// All routes are protected
+router.use(protect);
 
-router.post('/', (req, res) => {
-  res.json({ message: 'Create borrow request route - to be implemented' });
-});
+router.route('/').get(getRequests).post(createRequest);
 
-router.put('/:id/approve', (req, res) => {
-  res.json({ message: 'Approve request route - to be implemented' });
-});
-
-router.put('/:id/reject', (req, res) => {
-  res.json({ message: 'Reject request route - to be implemented' });
-});
-
-router.put('/:id/complete', (req, res) => {
-  res.json({ message: 'Complete request route - to be implemented' });
-});
+router.get('/:id', getRequest);
+router.put('/:id/approve', approveRequest);
+router.put('/:id/reject', rejectRequest);
+router.put('/:id/complete', completeRequest);
+router.put('/:id/cancel', cancelRequest);
 
 module.exports = router;

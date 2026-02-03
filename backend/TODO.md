@@ -32,13 +32,13 @@
 - [x] Filter by availability status
 - [x] Sort by distance, date added, rating
 
-## 5. Borrow Request System
-- [ ] BorrowRequest model (item, borrower, lender, status, dates, pickup details)
-- [ ] POST `/api/requests` - Create borrow request
-- [ ] GET `/api/requests` - Get user's requests (sent & received)
-- [ ] PUT `/api/requests/:id/approve` - Approve request
-- [ ] PUT `/api/requests/:id/reject` - Reject request
-- [ ] PUT `/api/requests/:id/complete` - Mark as returned
+## 5. Borrow Request System ✅
+- [x] BorrowRequest model (item, borrower, lender, status, dates, pickup details)
+- [x] POST `/api/requests` - Create borrow request
+- [x] GET `/api/requests` - Get user's requests (sent & received)
+- [x] PUT `/api/requests/:id/approve` - Approve request
+- [x] PUT `/api/requests/:id/reject` - Reject request
+- [x] PUT `/api/requests/:id/complete` - Mark as returned
 
 ## 6. Messaging System
 - [ ] Message/Conversation model
