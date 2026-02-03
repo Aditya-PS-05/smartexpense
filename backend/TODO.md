@@ -55,12 +55,12 @@
 - [x] POST `/api/reports` - Submit report
 - [x] Admin endpoints to review reports
 
-## 8. Middleware & Utilities
-- [ ] Authentication middleware
-- [ ] Error handling middleware
-- [ ] Input validation (Joi/express-validator)
-- [ ] File upload for images (Multer + cloud storage)
-- [ ] Rate limiting
+## 8. Middleware & Utilities ✅
+- [x] Authentication middleware
+- [x] Error handling middleware
+- [x] Input validation (Joi/express-validator)
+- [x] File upload for images (Multer + cloud storage)
+- [x] Rate limiting
 
 ## 9. Testing & Deployment
 - [ ] Write unit tests for critical endpoints
