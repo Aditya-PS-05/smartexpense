@@ -47,13 +47,13 @@
 - [x] GET `/api/conversations` - Get user's conversations
 - [ ] WebSocket support for real-time messaging (optional - future enhancement)
 
-## 7. Trust & Safety (Ratings/Reports)
-- [ ] Rating model (rater, rated user, item, score, comment)
-- [ ] POST `/api/ratings` - Submit rating after transaction
-- [ ] GET `/api/users/:id/ratings` - Get user's ratings
-- [ ] Report model (reporter, reported user/item, reason, status)
-- [ ] POST `/api/reports` - Submit report
-- [ ] Admin endpoints to review reports
+## 7. Trust & Safety (Ratings/Reports) ✅
+- [x] Rating model (rater, rated user, item, score, comment)
+- [x] POST `/api/ratings` - Submit rating after transaction
+- [x] GET `/api/users/:id/ratings` - Get user's ratings
+- [x] Report model (reporter, reported user/item, reason, status)
+- [x] POST `/api/reports` - Submit report
+- [x] Admin endpoints to review reports
 
 ## 8. Middleware & Utilities
 - [ ] Authentication middleware

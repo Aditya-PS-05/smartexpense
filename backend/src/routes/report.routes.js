@@ -1,9 +1,14 @@
 const express = require('express');
 const router = express.Router();
+const {
+  createReport,
+  getReports,
+  updateReport,
+} = require('../controllers/report.controller');
+const { protect } = require('../middleware/auth.middleware');
 
-// Placeholder routes - to be implemented
-router.post('/', (req, res) => {
-  res.json({ message: 'Submit report route - to be implemented' });
-});
+router.post('/', protect, createReport);
+router.get('/', protect, getReports); // TODO: Add admin middleware
+router.put('/:id', protect, updateReport); // TODO: Add admin middleware
 
 module.exports = router;

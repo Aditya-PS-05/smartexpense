@@ -1,9 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const { getUserRatings } = require('../controllers/rating.controller');
 
-// Placeholder routes - to be implemented
-router.get('/:id/ratings', (req, res) => {
-  res.json({ message: 'Get user ratings route - to be implemented' });
-});
+router.get('/:id/ratings', getUserRatings);
 
 module.exports = router;
