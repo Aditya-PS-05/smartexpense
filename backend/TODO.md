@@ -1,10 +1,10 @@
 # Backend TODO - Neighborhood Lending Library
 
-## 1. Project Setup
-- [ ] Initialize Node.js/Express project (or preferred framework)
-- [ ] Set up database (PostgreSQL/MongoDB)
-- [ ] Configure environment variables
-- [ ] Set up project structure (routes, controllers, models, middleware)
+## 1. Project Setup ✅
+- [x] Initialize Node.js/Express project (or preferred framework)
+- [x] Set up database (PostgreSQL/MongoDB)
+- [x] Configure environment variables
+- [x] Set up project structure (routes, controllers, models, middleware)
 
 ## 2. User Registration & Verification
 - [ ] User model (name, email, password, address, phone, verified status, profile image)
